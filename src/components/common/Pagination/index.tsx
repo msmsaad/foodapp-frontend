@@ -21,8 +21,8 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
       activeClassName={`${styles.item} ${styles.active}`}
       pageClassName={`${styles.item} ${styles['pagination-page']}`}
       breakClassName={`${styles.item} ${styles['break-me']}`}
-      previousClassName={`${styles.item} ${styles.previous}`}
-      nextClassName={`${styles.item} ${styles.next}`}
+      previousClassName={`${styles.previous}`}
+      nextClassName={`${styles.next}`}
       disabledClassName={styles['disabled-page']}
     />
   );
