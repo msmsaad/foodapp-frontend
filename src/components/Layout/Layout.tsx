@@ -33,7 +33,7 @@ export const Layout: FC<ILayoutProps> = ({
       </Head>
 
       <NavBar/>
-      <div className={`page-content ${classNames}`}>
+      <div className={`page-content container mx-auto p-4 ${classNames}`}>
         {children}
       </div>
     </main>

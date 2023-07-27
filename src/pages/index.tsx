@@ -21,7 +21,6 @@ export default function CategoriesPage({
 
   return (
     <Layout title="Categories">
-      <CategoryCarousel {...{ categories }} />
       <CategoriesList {...{ categories }} />
     </Layout>
   );
