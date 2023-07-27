@@ -8,11 +8,12 @@ module.exports = {
 
   async rewrites() {
     const { publicRuntimeConfig } = require('next/config').default();
-    console.log('destination', publicRuntimeConfig.SERVER_URL);
+    console.log('proxy on:', publicRuntimeConfig.SERVER_URL);
+
     return [
       {
-        source: '/:path*',
-        destination: `${publicRuntimeConfig.SERVER_URL}/:path*`,
+        source: '/api/:path*',
+        destination: `${publicRuntimeConfig.SERVER_URL}/api/:path*`,
       },
     ];
   },
