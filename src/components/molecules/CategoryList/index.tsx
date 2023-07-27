@@ -12,7 +12,7 @@ export const CategoriesList = ({ categories }: ICategoryListProps) => {
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
       {categories.map((category, index) => (
-        <div key={index} className="card bg-base-100 shadow-xl image-full">
+        <div key={index} className="card bg-base-100 shadow-xl image-full z-0">
           <figure>
             <Image
               src={category.strCategoryThumb}
