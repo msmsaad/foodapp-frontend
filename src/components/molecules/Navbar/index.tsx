@@ -4,6 +4,8 @@ import { Category } from '@types';
 import { Key } from 'react';
 import Link from 'next/link';
 import CartDrawer from "../CartDrawer/index"
+import SignupModal from '../SignupModal/index';
+import SigninModal from '../SigninModal/index';
 
 const NavBar = () => {
   const { categories } = useSelector((state: RootState) => state.categories);
@@ -20,17 +22,8 @@ const NavBar = () => {
 
   return (
     <div className="navbar bg-base-100">
-      <dialog id="my_modal_1" className="modal">
-        <form method="dialog" className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
-          <div className="modal-action">
-            <button className="btn">Close</button>
-          </div>
-        </form>
-      </dialog>
+      <SignupModal/>
+      <SigninModal/>
       <div className="flex-1">
         <a className="btn btn-ghost normal-case text-xl">Food App</a>
       </div>
@@ -46,10 +39,10 @@ const NavBar = () => {
             {renderCategoriesDropdown()}
           </ul>
         </div>
-        <button className="btn" onClick={() => window.my_modal_1.showModal()}>
+        <button className="btn" onClick={() => window.sign_up_modal.showModal()}>
           Sign up
         </button>
-        <button className="btn" onClick={() => window.my_modal_1.showModal()}>
+        <button className="btn" onClick={() => window.sign_in_modal.showModal()}>
           Sign in
         </button>
        <CartDrawer/>
