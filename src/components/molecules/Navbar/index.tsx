@@ -3,12 +3,14 @@ import { RootState } from '@redux/store';
 import { Category } from '@types';
 import { Key } from 'react';
 import Link from 'next/link';
-import CartDrawer from "../CartDrawer/index"
-import SignupModal from '../SignupModal/index';
-import SigninModal from '../SigninModal/index';
+import CartDrawer from '../CartDrawer/index';
+import Modal from '../Modal/Modal';
+import { useModal } from '../Modal/useModal';
+import SignInWrapper from '../SignInWrapper/index';
 
 const NavBar = () => {
   const { categories } = useSelector((state: RootState) => state.categories);
+  const { toggleModal } = useModal();
 
   const renderCategoriesDropdown = () => {
     return categories.map((category: Category, index: Key) => (
@@ -22,8 +24,9 @@ const NavBar = () => {
 
   return (
     <div className="navbar bg-base-100">
-      <SignupModal/>
-      <SigninModal/>
+      <Modal id="sign_in_modal">
+        <SignInWrapper />
+      </Modal>
       <div className="flex-1">
         <a className="btn btn-ghost normal-case text-xl">Food App</a>
       </div>
@@ -39,13 +42,10 @@ const NavBar = () => {
             {renderCategoriesDropdown()}
           </ul>
         </div>
-        <button className="btn" onClick={() => window.sign_up_modal.showModal()}>
-          Sign up
-        </button>
-        <button className="btn" onClick={() => window.sign_in_modal.showModal()}>
+        <button className="btn" onClick={() => toggleModal('sign_in_modal')}>
           Sign in
         </button>
-       <CartDrawer/>
+        <CartDrawer />
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="avatar placeholder">
