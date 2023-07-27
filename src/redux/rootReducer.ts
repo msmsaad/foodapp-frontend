@@ -1,9 +1,11 @@
 import { HYDRATE } from 'next-redux-wrapper';
 import { AnyAction, combineReducers } from '@reduxjs/toolkit';
 import { categoryReducer } from './slices/categorySlice';
+import { mealApi } from './api';
 
 const combinedReducer = combineReducers({
   categories: categoryReducer,
+  [mealApi.reducerPath]: mealApi.reducer,
 });
 
 const rootReducer = (state: any, action: AnyAction) => {
