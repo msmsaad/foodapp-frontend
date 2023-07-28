@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import NavBar from '../molecules/Navbar/index';
-
+import { FC } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import NavBar from "../molecules/Navbar/index";
+import Footer from "@components/molecules/Footer/index";
 
 interface ILayoutProps {
   title: string;
@@ -14,12 +14,12 @@ interface ILayoutProps {
 
 export const Layout: FC<ILayoutProps> = ({
   title,
-  description = '',
+  description = "",
   children,
-  classNames= '',
-  topBar
+  classNames = "",
+  topBar,
 }): JSX.Element => {
-  const { asPath: currentRoute = '' } = useRouter();
+  const { asPath: currentRoute = "" } = useRouter();
 
   return (
     <main className="page-main">
@@ -32,10 +32,11 @@ export const Layout: FC<ILayoutProps> = ({
         <meta name="description" content={description} key="description" />
       </Head>
 
-      <NavBar/>
+      <NavBar />
       <div className={`page-content container mx-auto p-4 ${classNames}`}>
         {children}
       </div>
+      <Footer />
     </main>
   );
 };
