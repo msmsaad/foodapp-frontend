@@ -5,6 +5,7 @@ import { Key } from "react";
 import { useSelector } from "react-redux";
 import { IMAGE_DIMENSIONS } from "src/constants";
 import { useRouter } from "next/router";
+import _ from "lodash";
 
 const CartDrawer = () => {
   const { cart = [] } = useSelector((state) => state.session);
@@ -65,6 +66,14 @@ const CartDrawer = () => {
     }
   };
 
+  const sortCart = (unsorted_cart) => {
+    if (Array.isArray(unsorted_cart)) {
+      return [...unsorted_cart].sort((a, b) => a.id - b.id);
+    } else {
+      return [];
+    }
+  };
+
   return (
     <div className="drawer drawer-end">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -103,7 +112,7 @@ const CartDrawer = () => {
               <button className="btn btn-ghost w-full">Cart</button>
             </>{" "}
             <div className="divider" />
-            {cart?.map((cartMeal: CartMeal, index: Key) => (
+            {sortCart(cart).map((cartMeal: CartMeal, index: Key) => (
               <div key={index}>
                 <div>
                   <div className="flex items-center space-x-3">
@@ -120,7 +129,9 @@ const CartDrawer = () => {
                       </div>
                     </div>
                     <div className="w-50">
-                      <div className="font-bold">{cartMeal.meal.title}</div>
+                      <div className="font-bold" title={cartMeal.meal.title}>
+                        {_.truncate(cartMeal.meal.title, { length: 15 })}
+                      </div>
                       <div className="flex justify-between items-center mt-2">
                         <span className="mr-10">
                           Quantiy: {cartMeal.quantity}{" "}
@@ -169,7 +180,7 @@ const CartDrawer = () => {
                 <div className="stat-value">${calculateTotal()}</div>
                 <button
                   className="btn btn-sm btn-accent"
-                  disabled={isLoading || cart.length === 0}
+                  disabled={isLoading || cart?.length === 0}
                   onClick={handleCheckout}
                 >
                   Checkout
