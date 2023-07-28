@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Cart } from '../../types/Cart';
 
 export type User = {
   email: string;
@@ -8,11 +9,13 @@ export type User = {
 export type AuthState = {
   user: User | null;
   token: string | null;
+  cart: Cart | null;
 };
 
 const initialState: AuthState = {
   user: null,
   token: null,
+  cart: null,
 };
 
 const slice = createSlice({
@@ -29,8 +32,11 @@ const slice = createSlice({
       state.token = null;
       state.user = null;
     },
+    setCart: (state, action: PayloadAction<Cart>) => {
+      state.cart = action.payload;
+    },
   },
 });
 
-export const { setUser, setToken, logout } = slice.actions;
+export const { setUser, setToken, logout, setCart } = slice.actions;
 export const authReducer = slice.reducer;

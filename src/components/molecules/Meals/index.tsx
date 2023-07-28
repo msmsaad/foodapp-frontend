@@ -7,6 +7,7 @@ import { useModal } from '../Modal/useModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 interface IMealsProps {
   meals: Meal[];
@@ -15,6 +16,7 @@ const Meals = ({ meals }: IMealsProps) => {
   const { user } = useSelector((state: RootState) => state.session);
   const [addToCart, { isLoading }] = useAddToCartMutation();
   const { toggleModal } = useModal();
+  const [selectedMealId, setSelectedMealId] = useState('');
 
   const handleAddToCart = async (mealId: string) => {
     if (!user) {
@@ -22,10 +24,13 @@ const Meals = ({ meals }: IMealsProps) => {
       toggleModal('auth_modal');
     } else {
       try {
-        await addToCart({ meal_id: parseInt(mealId), quantity: 1 });
+        setSelectedMealId(mealId);
+        await addToCart({ meal_id: parseInt(mealId), quantity: 1, id: null });
         toast.success('Successfully added to cart');
       } catch (err) {
         console.log(err);
+      } finally {
+        setSelectedMealId('');
       }
     }
   };
@@ -53,10 +58,12 @@ const Meals = ({ meals }: IMealsProps) => {
             <div className="card-actions justify-center">
               <button
                 className="btn btn-primary"
-                disabled={isLoading}
+                disabled={isLoading && selectedMealId === meal.idMeal}
                 onClick={() => handleAddToCart(meal.idMeal)}
               >
-                {isLoading ? 'Adding...' : 'Add to Cart'}
+                {isLoading && selectedMealId === meal.idMeal
+                  ? 'Adding...'
+                  : 'Add to Cart'}
               </button>
             </div>
           </div>

@@ -5,15 +5,15 @@ type Meal = {
   price: number;
 };
 
-export type carts_meals = {
+export type CartMeal = {
   id: number;
   quantity: number;
-  meal: Meal
-}
+  meal: Meal;
+};
 
-export interface CartResponse {
-  id: string,
-  created_at: string,
-  updated_at: string,
-  carts_meals: carts_meals[];
+export interface Cart {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  carts_meals: CartMeal[];
 }

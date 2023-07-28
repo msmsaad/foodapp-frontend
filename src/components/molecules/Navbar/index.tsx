@@ -55,13 +55,16 @@ const NavBar = () => {
           <>
             <CartDrawer />
             <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="avatar placeholder">
-                  <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
-                    <span>{user.name ? getInitials(user.name) : 'MA'}</span>
+              <label tabIndex={0}>
+                <div className="avatar online placeholder cursor-pointer">
+                  <div className="bg-slate-400 text-neutral-content rounded-full w-10">
+                    <span className="text-sm">
+                      {user.name ? getInitials(user.name) : 'MA'}
+                    </span>
                   </div>
                 </div>
               </label>
+
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
