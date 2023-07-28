@@ -1,13 +1,13 @@
-import { useAddToCartMutation, useLazyCheckOutQuery } from '@redux/api';
-import { CartMeal } from '@types';
-import Image from 'next/image';
-import { Key } from 'react';
-import { useSelector } from 'react-redux';
-import { IMAGE_DIMENSIONS } from 'src/constants';
-import { useRouter } from 'next/router';
+import { useAddToCartMutation, useLazyCheckOutQuery } from "@redux/api";
+import { CartMeal } from "@types";
+import Image from "next/image";
+import { Key } from "react";
+import { useSelector } from "react-redux";
+import { IMAGE_DIMENSIONS } from "src/constants";
+import { useRouter } from "next/router";
 
 const CartDrawer = () => {
-  const { cart = [] } = useSelector(state => state.session);
+  const { cart = [] } = useSelector((state) => state.session);
 
   const [addToCart] = useAddToCartMutation();
   const [trigger, { isLoading }] = useLazyCheckOutQuery();
@@ -52,7 +52,7 @@ const CartDrawer = () => {
     }
   };
 
-  const handleDelete = async cartMeal => {
+  const handleDelete = async (cartMeal) => {
     try {
       await addToCart({
         id: parseInt(cartMeal.id),
@@ -90,7 +90,7 @@ const CartDrawer = () => {
               />
             </svg>
             <span className="badge badge-ghost badge-sm indicator-item">
-              {cart?.length}
+              {cart?.length || 0}
             </span>
           </div>
         </label>
@@ -101,14 +101,14 @@ const CartDrawer = () => {
           <div className="overflow-x-auto">
             <>
               <button className="btn btn-ghost w-full">Cart</button>
-            </>{' '}
+            </>{" "}
             <div className="divider" />
             {cart?.map((cartMeal: CartMeal, index: Key) => (
               <div key={index}>
                 <div>
                   <div className="flex items-center space-x-3">
                     <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12 mr-12">
+                      <div className="mask mask-squircle w-12 h-12 mr-6">
                         <figure>
                           <Image
                             src={cartMeal.meal.thumbnail}
@@ -122,7 +122,9 @@ const CartDrawer = () => {
                     <div className="w-50">
                       <div className="font-bold">{cartMeal.meal.title}</div>
                       <div className="flex justify-between items-center mt-2">
-                        <span>Quantiy: {cartMeal.quantity} </span>
+                        <span className="mr-10">
+                          Quantiy: {cartMeal.quantity}{" "}
+                        </span>
                         <div className="btn-group btn-group-vertical lg:btn-group-horizontal">
                           <button
                             className="btn btn-xs btn-outline"
@@ -137,6 +139,12 @@ const CartDrawer = () => {
                           >
                             -
                           </button>
+                          <button
+                            className="btn btn-xs btn-outline text-red-500"
+                            onClick={() => handleDelete(cartMeal)}
+                          >
+                            X
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -147,26 +155,17 @@ const CartDrawer = () => {
                           ${cartMeal.meal.price * cartMeal.quantity}
                         </div>
                       </button>
-                      <button
-                        className="btn btn-xs btn-circle"
-                        onClick={() => handleDelete(cartMeal)}
-                      >
-                        <Image
-                          src="/images/delete.png"
-                          alt="delete"
-                          width={20}
-                          height={20}
-                        />
-                      </button>{' '}
                     </div>
                   </div>
                 </div>
                 <div className="divider" />
               </div>
             ))}
-            <div className="bg-sky-200	 rounded-box text-primary-content">
+            <div className="text-primary-content">
               <div className="stat flex flex-col items-center">
-                <div className="stat-title">Total Amount</div>
+                <div className="stat-title text-primary-content">
+                  Total Amount
+                </div>
                 <div className="stat-value">${calculateTotal()}</div>
                 <button
                   className="btn btn-sm btn-accent"
