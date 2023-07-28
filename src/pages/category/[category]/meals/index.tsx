@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { DEFAULT_CATEGORY, STARTING_PAGE } from 'src/constants';
 import Pagination from '@components/common/Pagination';
 import Breadcrumb from '@components/common/BreadCrumb';
+import Loader from '@components/common/Loader';
 
 const MealsPage = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const MealsPage = () => {
     page,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (!data) return <div>No data available</div>;
 
   const { meals = [] } = data;

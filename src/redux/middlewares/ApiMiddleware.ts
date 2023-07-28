@@ -12,7 +12,11 @@ export const apiErrorMiddleware =
         !(action.meta.arg.endpointName === 'getCart')
       ) {
         ToastConatiner.showError(
-          `${action.payload.data.errors[0] || 'Unable to resolve'}`
+          `${
+            action.payload.data.errors
+              ? action.payload.data.errors[0]
+              : 'Unable to resolve'
+          }`
         );
       }
     }
