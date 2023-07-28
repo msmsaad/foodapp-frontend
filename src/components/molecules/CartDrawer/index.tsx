@@ -1,14 +1,14 @@
-import { useGetCartQuery } from '@redux/api';
-import { Cart, CartMeal } from '@types';
+import { useAddToCartMutation } from '@redux/api';
+import { CartMeal } from '@types';
 import Image from 'next/image';
 import { Key } from 'react';
 import { useSelector } from 'react-redux';
 import { IMAGE_DIMENSIONS } from 'src/constants';
 
 const CartDrawer = () => {
-  const { data } = useGetCartQuery();
   const { cart = [] } = useSelector(state => state.session);
 
+  const [addToCart] = useAddToCartMutation();
   const calculateTotal = () => {
     let totalAmount = 0;
 
@@ -17,6 +17,36 @@ const CartDrawer = () => {
     }
 
     return totalAmount;
+  };
+
+  const handleAddToCart = async (cartMeal: CartMeal, isIncreasing: boolean) => {
+    const updatedQuantity = isIncreasing
+      ? cartMeal.quantity + 1
+      : cartMeal.quantity - 1;
+    if (updatedQuantity > 0) {
+      try {
+        await addToCart({
+          quantity: updatedQuantity,
+          id: parseInt(cartMeal.id),
+          meal_id: parseInt(cartMeal.meal.id),
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  const handleDelete = async cartMeal => {
+    try {
+      await addToCart({
+        id: parseInt(cartMeal.id),
+        quantity: cartMeal.quantity,
+        meal_id: parseInt(cartMeal.meal.id),
+        _destroy: true,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -78,8 +108,19 @@ const CartDrawer = () => {
                       <div className="flex justify-between items-center mt-2">
                         <span>Quantiy: {cartMeal.quantity} </span>
                         <div className="btn-group btn-group-vertical lg:btn-group-horizontal">
-                          <button className="btn btn-xs btn-active">+</button>
-                          <button className="btn btn-xs">-</button>
+                          <button
+                            className="btn btn-xs btn-outline"
+                            onClick={() => handleAddToCart(cartMeal, true)}
+                          >
+                            +
+                          </button>
+                          <button
+                            className="btn btn-xs btn-outline"
+                            disabled={cartMeal.quantity === 1}
+                            onClick={() => handleAddToCart(cartMeal, false)}
+                          >
+                            -
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -90,7 +131,17 @@ const CartDrawer = () => {
                           ${cartMeal.meal.price * cartMeal.quantity}
                         </div>
                       </button>
-                      <button>X</button>
+                      <button
+                        className="btn btn-xs btn-circle"
+                        onClick={() => handleDelete(cartMeal)}
+                      >
+                        <Image
+                          src="/images/delete.png"
+                          alt="delete"
+                          width={20}
+                          height={20}
+                        />
+                      </button>{' '}
                     </div>
                   </div>
                 </div>

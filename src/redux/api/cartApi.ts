@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_PATH, VERSION } from 'src/constants';
 import { CartMeal, Cart } from '@types';
 import { prepareHeaders } from '@utils/index';
-import { setCart } from '@redux/slices/authSlice';
+import { setCart, setUser } from '@redux/slices/authSlice';
 
 export const cartApi = createApi({
   reducerPath: 'cartApi',
@@ -25,6 +25,7 @@ export const cartApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setCart(data.carts_meals));
+          dispatch(setUser(data.user));
         } catch {}
       },
     }),

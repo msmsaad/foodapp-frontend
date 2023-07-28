@@ -9,12 +9,14 @@ import { useModal } from '../Modal/useModal';
 import AuthWrapper from '../AuthWrapper';
 import { getInitials } from '@utils/index';
 import { useSignOutMutation } from '@redux/api/authApi';
+import { useGetCartQuery } from '@redux/api';
 
 const NavBar = () => {
   const { categories } = useSelector((state: RootState) => state.categories);
   const { user } = useSelector((state: RootState) => state.session);
   const { toggleModal } = useModal();
   const [signOut] = useSignOutMutation();
+  const { data } = useGetCartQuery();
 
   const renderCategoriesDropdown = () => {
     return categories.map((category: Category, index: Key) => (
