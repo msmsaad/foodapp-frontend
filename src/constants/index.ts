@@ -10,3 +10,15 @@ export const IMAGE_DIMENSIONS = {
 export const STARTING_PAGE = 1;
 
 export const DEFAULT_CATEGORY = 'Beef';
+
+export const INITIAL_SIGNIN_VALUES = {
+  email: '',
+  password: '',
+};
+
+export const INITIAL_SIGNUP_VALUES = {
+  username: '',
+  email: '',
+  password: '',
+  passwordConfirmation: '',
+};
