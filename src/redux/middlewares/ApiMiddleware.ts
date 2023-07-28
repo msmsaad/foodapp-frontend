@@ -7,7 +7,9 @@ export const apiErrorMiddleware =
   (action: AnyAction) => {
     if (action.type.endsWith('rejected')) {
       if (action.payload && action.payload?.data) {
-        ToastConatiner.showError(`${action.payload.data}`);
+        ToastConatiner.showError(
+          `${action.payload.data.errors[0] || 'Unable to resolve'}`
+        );
       }
     }
     return next(action);

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import rootReducer from './rootReducer';
 import { apiErrorMiddleware } from './middlewares/ApiMiddleware';
-import { mealApi, cartApi } from './api';
+import { mealApi, cartApi, authApi } from './api';
 
 export const makeStore = () =>
   configureStore({
@@ -11,7 +11,8 @@ export const makeStore = () =>
       getDefaultMiddleware()
         .concat(apiErrorMiddleware)
         .concat(mealApi.middleware)
-        .concat(cartApi.middleware),
+        .concat(cartApi.middleware)
+        .concat(authApi.middleware),
     devTools: true,
   });
 export const store = makeStore();
