@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_PATH, VERSION } from 'src/constants';
-import { CartResponse, CartMealAttributes } from '@types';
+import { CartMeal, Cart } from '@types';
 import { prepareHeaders } from '@utils/index';
+import { setCart, setUser } from '@redux/slices/authSlice';
 
 export const cartApi = createApi({
   reducerPath: 'cartApi',
@@ -16,17 +17,30 @@ export const cartApi = createApi({
     },
   }),
   endpoints: builder => ({
-    getCart: builder.query<CartResponse>({
+    getCart: builder.query<Cart>({
       query: () => ({
         url: 'cart',
       }),
+      onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setCart(data.carts_meals));
+          dispatch(setUser(data.user));
+        } catch {}
+      },
     }),
-    addToCart: builder.mutation<void, CartMealAttributes>({
+    addToCart: builder.mutation<void, Cart>({
       query: mealAttributes => ({
         url: 'cart',
         method: 'PATCH',
         body: { carts_meals: { carts_meals_attributes: mealAttributes } },
       }),
+      onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setCart(data.carts_meals));
+        } catch {}
+      },
     }),
   }),
 });

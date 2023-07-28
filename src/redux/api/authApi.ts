@@ -2,6 +2,7 @@ import { setUser, logout } from '@redux/slices/authSlice';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_PATH } from 'src/constants';
 import { User } from '../slices/authSlice';
+import { prepareHeaders } from '@utils/index';
 
 const removeHeaders = () => {
   localStorage.removeItem('access-token');
@@ -13,6 +14,15 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_PATH}/`,
+    prepareHeaders: (headers, { endpoint }) => {
+      if (endpoint === 'signOut') {
+        const customHeaders = prepareHeaders();
+        Object.entries(customHeaders).forEach(([key, value]) =>
+          headers.set(key, value)
+        );
+      }
+      return headers;
+    },
   }),
   endpoints: builder => ({
     signIn: builder.mutation<

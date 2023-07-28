@@ -9,12 +9,14 @@ import { useModal } from '../Modal/useModal';
 import AuthWrapper from '../AuthWrapper';
 import { getInitials } from '@utils/index';
 import { useSignOutMutation } from '@redux/api/authApi';
+import { useGetCartQuery } from '@redux/api';
 
 const NavBar = () => {
   const { categories } = useSelector((state: RootState) => state.categories);
   const { user } = useSelector((state: RootState) => state.session);
   const { toggleModal } = useModal();
   const [signOut] = useSignOutMutation();
+  const { data } = useGetCartQuery();
 
   const renderCategoriesDropdown = () => {
     return categories.map((category: Category, index: Key) => (
@@ -55,13 +57,16 @@ const NavBar = () => {
           <>
             <CartDrawer />
             <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="avatar placeholder">
-                  <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
-                    <span>{user.name ? getInitials(user.name) : 'MA'}</span>
+              <label tabIndex={0}>
+                <div className="avatar online placeholder cursor-pointer">
+                  <div className="bg-slate-400 text-neutral-content rounded-full w-10">
+                    <span className="text-sm">
+                      {user.name ? getInitials(user.name) : 'MA'}
+                    </span>
                   </div>
                 </div>
               </label>
+
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"

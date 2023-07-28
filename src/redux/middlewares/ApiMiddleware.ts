@@ -6,7 +6,11 @@ export const apiErrorMiddleware =
   (next: Dispatch<AnyAction>) =>
   (action: AnyAction) => {
     if (action.type.endsWith('rejected')) {
-      if (action.payload && action.payload?.data) {
+      if (
+        action.payload &&
+        action.payload?.data &&
+        !(action.meta.arg.endpointName === 'getCart')
+      ) {
         ToastConatiner.showError(
           `${action.payload.data.errors[0] || 'Unable to resolve'}`
         );
