@@ -27,7 +27,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 px-16">
       <Modal id="auth_modal">
         <AuthWrapper />
       </Modal>
@@ -51,25 +51,27 @@ const NavBar = () => {
             Sign in
           </button>
         )}
-        <CartDrawer />
         {user && (
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="avatar placeholder">
-                <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
-                  <span>{user.name ? getInitials(user.name) : 'MA'}</span>
+          <>
+            <CartDrawer />
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="avatar placeholder">
+                  <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
+                    <span>{user.name ? getInitials(user.name) : 'MA'}</span>
+                  </div>
                 </div>
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li onClick={() => signOut()}>
-                <a>Logout</a>
-              </li>
-            </ul>
-          </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li onClick={() => signOut()}>
+                  <a>Logout</a>
+                </li>
+              </ul>
+            </div>
+          </>
         )}
       </div>
     </div>

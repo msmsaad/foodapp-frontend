@@ -4,7 +4,6 @@ import rootReducer from './rootReducer';
 import { apiErrorMiddleware } from './middlewares/ApiMiddleware';
 import { mealApi, cartApi, authApi } from './api';
 
-
 export const makeStore = () =>
   configureStore({
     reducer: rootReducer,
@@ -12,7 +11,7 @@ export const makeStore = () =>
       getDefaultMiddleware()
         .concat(apiErrorMiddleware)
         .concat(mealApi.middleware)
-        .concat(cartApi.middleware),
+        .concat(cartApi.middleware)
         .concat(authApi.middleware),
     devTools: true,
   });
