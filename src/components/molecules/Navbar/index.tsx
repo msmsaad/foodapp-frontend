@@ -16,7 +16,7 @@ const NavBar = () => {
   const { user } = useSelector((state: RootState) => state.session);
   const { toggleModal } = useModal();
   const [signOut] = useSignOutMutation();
-  const { data } = useGetCartQuery();
+  useGetCartQuery();
 
   const renderCategoriesDropdown = () => {
     return categories.map((category: Category, index: Key) => (

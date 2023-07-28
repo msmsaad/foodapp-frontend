@@ -3,6 +3,7 @@ import { API_PATH, VERSION } from 'src/constants';
 import { CartMeal, Cart } from '@types';
 import { prepareHeaders } from '@utils/index';
 import { setCart, setUser } from '@redux/slices/authSlice';
+import qs from 'qs';
 
 export const cartApi = createApi({
   reducerPath: 'cartApi',
@@ -42,7 +43,13 @@ export const cartApi = createApi({
         } catch {}
       },
     }),
+    checkOut: builder.query<void, { success_url: string }>({
+      query: ({ success_url }) => ({
+        url: `cart/checkout?${qs.stringify({ success_url })}`,
+      }),
+    }),
   }),
 });
 
-export const { useGetCartQuery, useAddToCartMutation } = cartApi;
+export const { useGetCartQuery, useAddToCartMutation, useLazyCheckOutQuery } =
+  cartApi;

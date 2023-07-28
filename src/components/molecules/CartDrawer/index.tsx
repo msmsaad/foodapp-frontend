@@ -1,14 +1,30 @@
-import { useAddToCartMutation } from '@redux/api';
+import { useAddToCartMutation, useLazyCheckOutQuery } from '@redux/api';
 import { CartMeal } from '@types';
 import Image from 'next/image';
 import { Key } from 'react';
 import { useSelector } from 'react-redux';
 import { IMAGE_DIMENSIONS } from 'src/constants';
+import { useRouter } from 'next/router';
 
 const CartDrawer = () => {
   const { cart = [] } = useSelector(state => state.session);
 
   const [addToCart] = useAddToCartMutation();
+  const [trigger, { isLoading }] = useLazyCheckOutQuery();
+
+  const router = useRouter();
+
+  const handleCheckout = async () => {
+    try {
+      const {
+        data: { checkout_url: url },
+      } = await trigger({
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/thank_you`,
+      });
+      router.replace(url);
+    } catch (e) {}
+  };
+
   const calculateTotal = () => {
     let totalAmount = 0;
 
@@ -148,11 +164,17 @@ const CartDrawer = () => {
                 <div className="divider" />
               </div>
             ))}
-            <div className="bg-neutral-focus rounded-box text-primary-content">
+            <div className="bg-sky-200	 rounded-box text-primary-content">
               <div className="stat flex flex-col items-center">
                 <div className="stat-title">Total Amount</div>
                 <div className="stat-value">${calculateTotal()}</div>
-                <button className="btn btn-sm btn-success">Checkout</button>
+                <button
+                  className="btn btn-sm btn-accent"
+                  disabled={isLoading || cart.length === 0}
+                  onClick={handleCheckout}
+                >
+                  Checkout
+                </button>
               </div>
             </div>
             <div className="flex w-full justify-center mt-4">
